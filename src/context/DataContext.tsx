@@ -90,14 +90,14 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setWashes(generateWashRecords(15));
     
     // Mock Attendance from Mobile App
-    const mockAttendance: AttendanceRecord[] = clns.slice(0, 6).map(c => ({
+    const mockAttendance: AttendanceRecord[] = clns.slice(0, 6).map((c, index) => ({
       id: Math.random().toString(36).substr(2, 9),
       cleanerId: c.id,
       cleanerName: c.name,
       employeeId: c.employeeId,
       checkIn: '08:15 AM',
-      checkOut: i % 2 === 0 ? '05:30 PM' : undefined,
-      totalHours: i % 2 === 0 ? '9h 15m' : undefined,
+      checkOut: index % 2 === 0 ? '05:30 PM' : undefined,
+      totalHours: index % 2 === 0 ? '9h 15m' : undefined,
       status: 'present',
       date: new Date().toISOString().split('T')[0]
     }));
