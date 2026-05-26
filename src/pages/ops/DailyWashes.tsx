@@ -30,9 +30,9 @@ export const DailyWashes: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card className="p-4 bg-primary-600 text-white border-none">
-          <p className="text-xs font-bold opacity-80 uppercase tracking-wider">Total Washes</p>
-          <h4 className="text-2xl font-bold mt-1">{washes.length}</h4>
+        <Card className="p-4 bg-blue-50 border-none">
+          <p className="text-xs font-bold text-blue-600 uppercase tracking-wider">Total Washes</p>
+          <h4 className="text-2xl font-bold mt-1 text-blue-700">{washes.length}</h4>
         </Card>
         <Card className="p-4">
           <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Completed</p>

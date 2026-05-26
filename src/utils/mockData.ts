@@ -5,7 +5,6 @@ export const generateLocations = (count: number): Location[] => {
   return Array.from({ length: count }).map(() => ({
     id: faker.string.uuid(),
     name: faker.company.name() + ' Residency',
-    address: faker.location.streetAddress(),
     flatCount: faker.number.int({ min: 50, max: 500 }),
     status: faker.helpers.arrayElement(['active', 'inactive']),
     createdAt: faker.date.past().toLocaleDateString(),
@@ -15,9 +14,13 @@ export const generateLocations = (count: number): Location[] => {
 export const generateFlats = (count: number): Flat[] => {
   return Array.from({ length: count }).map(() => ({
     id: faker.string.uuid(),
-    number: faker.helpers.arrayElement(['A', 'B', 'C', 'D']) + '-' + faker.number.int({ min: 101, max: 999 }),
+    number: faker.number.int({ min: 101, max: 999 }).toString(),
+    flatName: faker.helpers.arrayElement(['Rose', 'Tulip', 'Lotus', 'Orchid']),
+    blockName: faker.helpers.arrayElement(['A', 'B', 'C', 'D']),
     locationId: faker.string.uuid(),
     locationName: faker.company.name() + ' Residency',
+    parkingCount: faker.number.int({ min: 0, max: 3 }),
+    membersOccupied: faker.number.int({ min: 1, max: 6 }),
     customerName: faker.person.fullName(),
     vehicleCount: faker.number.int({ min: 1, max: 3 }),
     status: faker.helpers.arrayElement(['occupied', 'vacant']),

@@ -9,7 +9,6 @@ export interface User {
 export interface Location {
   id: string;
   name: string;
-  address: string;
   flatCount: number;
   status: 'active' | 'inactive';
   createdAt: string;
@@ -17,14 +16,18 @@ export interface Location {
 
 export interface Flat {
   id: string;
-  number: string;
   locationId: string;
   locationName: string;
+  flatName: string;
+  blockName: string;
+  number: string;
+  parkingCount: number;
+  membersOccupied: number;
   customerId?: string;
   customerName?: string;
   vehicleCount: number;
   vehicleDetails?: string;
-  status: 'occupied' | 'vacant';
+  status: 'active' | 'inactive';
   washStatus: 'pending' | 'assigned' | 'completed';
   lastWashDate?: string;
   preferredSlot?: string;
@@ -36,7 +39,11 @@ export interface Customer {
   id: string;
   name: string;
   mobile: string;
-  flatId: string;
+  locationId?: string;
+  locationName?: string;
+  flatName?: string;
+  blockName?: string;
+  flatId?: string;
   flatNumber: string;
   vehicles: string[];
   cleanerId?: string;
@@ -49,6 +56,7 @@ export interface Cleaner {
   name: string;
   mobile: string;
   employeeId: string;
+  aadharNumber?: string;
   assignedFlats: number;
   currentWorkload: number;
   maxWorkload: number;

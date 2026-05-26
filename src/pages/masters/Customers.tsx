@@ -8,12 +8,12 @@ import { DetailModal } from '../../components/modals/DetailModal';
 import { exportToCSV } from '../../utils/exportUtils';
 
 export const Customers: React.FC = () => {
-  const { customers, flats, addCustomer, updateCustomer, deleteCustomer } = useData();
+  const { customers, locations, addCustomer, updateCustomer, deleteCustomer } = useData();
   const [search, setSearch] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [selectedCust, setSelectedCust] = useState<any>(null);
-  const [formData, setFormData] = useState({ name: '', mobile: '', flatId: '', status: 'active' });
+  const [formData, setFormData] = useState({ name: '', mobile: '', locationId: '', flatName: '', blockName: '', flatNumber: '', status: 'active' });
 
   const filtered = customers.filter(c => 
     c.name.toLowerCase().includes(search.toLowerCase()) || 
@@ -22,15 +22,15 @@ export const Customers: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const flat = flats.find(f => f.id === formData.flatId);
-    const data = { ...formData, flatNumber: flat?.number || 'N/A', vehicles: ['Sedan'] };
+    const loc = locations.find(l => l.id === formData.locationId);
+    const data = { ...formData, locationName: loc?.name || '', vehicles: ['Sedan'] };
     
     if (selectedCust) updateCustomer(selectedCust.id, data);
     else addCustomer(data);
     
     setIsModalOpen(false);
     setSelectedCust(null);
-    setFormData({ name: '', mobile: '', flatId: '', status: 'active' });
+    setFormData({ name: '', mobile: '', locationId: '', flatName: '', blockName: '', flatNumber: '', status: 'active' });
   };
 
   return (
@@ -77,7 +77,7 @@ export const Customers: React.FC = () => {
                   <td className="px-6 py-4 text-right">
                     <div className="flex justify-end gap-2">
                       <button onClick={() => { setSelectedCust(cust); setIsDetailOpen(true); }} className="p-2 text-gray-400 hover:text-primary-600"><Eye size={16} /></button>
-                      <button onClick={() => { setSelectedCust(cust); setFormData({ name: cust.name, mobile: cust.mobile, flatId: cust.flatId, status: cust.status }); setIsModalOpen(true); }} className="p-2 text-gray-400 hover:text-blue-600"><Edit2 size={16} /></button>
+                      <button onClick={() => { setSelectedCust(cust); setFormData({ name: cust.name, mobile: cust.mobile, locationId: cust.locationId || '', flatName: cust.flatName || '', blockName: cust.blockName || '', flatNumber: cust.flatNumber || '', status: cust.status }); setIsModalOpen(true); }} className="p-2 text-gray-400 hover:text-blue-600"><Edit2 size={16} /></button>
                       <button onClick={() => { if(confirm('Delete customer?')) deleteCustomer(cust.id); }} className="p-2 text-gray-400 hover:text-red-600"><Trash2 size={16} /></button>
                     </div>
                   </td>
@@ -92,10 +92,13 @@ export const Customers: React.FC = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <input required placeholder="Full Name" className="w-full p-2 border rounded" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
           <input required placeholder="Mobile Number" className="w-full p-2 border rounded" value={formData.mobile} onChange={e => setFormData({...formData, mobile: e.target.value})} />
-          <select required className="w-full p-2 border rounded" value={formData.flatId} onChange={e => setFormData({...formData, flatId: e.target.value})}>
-            <option value="">Assign Flat</option>
-            {flats.map(f => <option key={f.id} value={f.id}>{f.number} ({f.locationName})</option>)}
+          <select required className="w-full p-2 border rounded" value={formData.locationId} onChange={e => setFormData({...formData, locationId: e.target.value})}>
+            <option value="">Select Location</option>
+            {locations.map(l => <option key={l.id} value={l.id}>{l.name}</option>)}
           </select>
+          <input required placeholder="Flat Name e.g. Rose" className="w-full p-2 border rounded" value={formData.flatName} onChange={e => setFormData({...formData, flatName: e.target.value})} />
+          <input required placeholder="Block Name e.g. A" className="w-full p-2 border rounded" value={formData.blockName} onChange={e => setFormData({...formData, blockName: e.target.value})} />
+          <input required placeholder="Flat Number" className="w-full p-2 border rounded" value={formData.flatNumber} onChange={e => setFormData({...formData, flatNumber: e.target.value})} />
           <select className="w-full p-2 border rounded" value={formData.status} onChange={e => setFormData({...formData, status: e.target.value})}>
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
